@@ -12,8 +12,6 @@ file_path = "arquivo_test2.c"
 file = open(file_path, 'r')
 file_lines = file.readlines()
 
-print(file_lines)
-
 list_of_words = []
 
 for line in file_lines:
