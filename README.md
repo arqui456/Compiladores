@@ -6,7 +6,7 @@
 </div>
 
 # BNF - GL
-
+```
 <programa> ::= <rotina> main <corpo> end main
 
 <corpo> ::= <declara> <sentencas>
@@ -81,8 +81,9 @@
 <intnum> ::= <digito>+
 
 <letra> ::= a| b| d| e| ... |w
-	
+
 <digito> ::= 0| 1| 2| 3| ... |9
+```
 
 ## :warning: Requirements
 1- Make sure the following packages are already installed on your system
