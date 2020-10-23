@@ -1,4 +1,3 @@
-import string
 
 class ReservedWords():
   def __init__(self):
@@ -24,7 +23,7 @@ class ReservedWords():
           self.last_word = ""
           return [{"word": "prompt " + word, "className": "reserved"}]
         else:
-          rtrn = [{"word": self.last_word, "className": "notReserved"}]
+          rtrn = [{"word": self.last_word, "className": "not_reserved"}]
           self.last_word = word
           return rtrn
       else:
@@ -41,13 +40,13 @@ class ReservedWords():
 
       # Retorno uma palavra não reservada e vazia, para não ser incluída na lista
       # Será necessário receber a próxima palavra para verificar se é uma composição
-      return {"word": "", "className": "notReserved"}
+      return {"word": "", "className": "not_reserved"}
     
     for rw in self.reserved_word:
       if rw == word:
         return [{"word": word, "className": "reserved"}]
     
-    return [{"word": word, "className": "notReserved"}]
+    return [{"word": word, "className": "not_reserved"}]
 
     
 

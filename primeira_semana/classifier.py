@@ -1,4 +1,4 @@
-from reservedWords import ReservedWords
+from reserved_word import ReservedWords
 
 class Classifier():
 
@@ -7,12 +7,12 @@ class Classifier():
 		
 
 	def classificate_list(self, list_of_words):
-		reservedWord = ReservedWords()
+		reserved_word = ReservedWords()
 		for word in list_of_words:
 
 			# Para a parte de verificação de reservada, olhar em ["className"] == "reserved"
 			# fiz assim para facilitar caso fossemos usar em uma lista
 			# retorno facilmente trocável
-			print(reservedWord.is_reserved_word(word))
+			print(reserved_word.is_reserved_word(word))
 		
 		
