@@ -9,7 +9,7 @@ def main():
 	classifier = Classifier()
 	automaton = Automaton(file_path, grammar, classifier)
 	# print(automaton.splitter.list_of_words)
-	classifier.classificateList(automaton.splitter.list_of_words)
+	classifier.classificate_list(automaton.splitter.list_of_words)
 	
 if __name__ == '__main__':
 	main()
