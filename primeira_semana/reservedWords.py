@@ -6,7 +6,7 @@ class ReservedWords():
     self.double_reserved = ["end main", "prompt for", "end for", "end while", "end if"]
     self.reserved_word = ["while", "if", "then", "let", "call", "else", "display", "for", "to", "main", "end", "define", "integer", "function"]
   
-  def isReservedWords(self, word):
+  def is_reserved_word(self, word):
     if not self.last_word == "":
 
       # Verificações para o caso de ser uma palavra reservada composta
@@ -31,7 +31,7 @@ class ReservedWords():
         # Caso não caia em um dos ifs, então teremos que precessar a atual palavra (word)
         # e limpar a ultima palavra lida
         self.last_word = ""
-        return self.isReservedWords(word)
+        return self.is_reserved_word(word)
         
 
     if word == "end" or word == "prompt":

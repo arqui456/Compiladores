@@ -4,7 +4,7 @@ class Classifier():
 
 	def __init__(self):
 		self.list_of_words = []
-		pass
+		
 
 	def classificateList(self, list_of_words):
 		reservedWord = ReservedWords()
