@@ -4,7 +4,15 @@ class ReservedWords():
     self.last_word = ""
     self.double_reserved = ["end main", "prompt for", "end for", "end while", "end if"]
     self.reserved_word = ["while", "if", "then", "let", "call", "else", "display", "for", "to", "main", "end", "define", "integer", "function"]
-  
+
+  def is_number(self, word: str):
+ 
+    for i in range(len(word)):
+      if word[i].isdigit() != True:
+        return False
+    return True
+
+
   def is_reserved_word(self, word):
     if not self.last_word == "":
 
@@ -45,8 +53,7 @@ class ReservedWords():
     for rw in self.reserved_word:
       if rw == word:
         return [{"word": word, "className": "reserved"}]
-    
+
+    if self.is_number(word):
+      return [{"word": word, "className": "IntNum"}]
     return [{"word": word, "className": "not_reserved"}]
-
-    
-
