@@ -38,6 +38,8 @@ class Parser():
 				return Sum(left, right)
 			elif operator.gettokentype() == 'SUB':
 				return Sub(left, right)
+			else:
+				raise AssertionError('Oops, this should not be possible!')
 			
 			
 
