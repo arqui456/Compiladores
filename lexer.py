@@ -7,7 +7,6 @@ class Lexer():
 
 	def _add_tokens(self):
 
-
 		# Core language functions
 		######################################
 
@@ -36,8 +35,14 @@ class Lexer():
 		# Multiplication
 		self.lexer.add('MULT', r'\*')
 
+		# Exponential
+		self.lexer.add('EXP', r'\^')
+
 		# Division
 		self.lexer.add('DIV', r'\/')
+
+		# Modulus
+		self.lexer.add('MOD', r'\%')
 		
 		# Data Types
 		######################################

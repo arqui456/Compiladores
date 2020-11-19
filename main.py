@@ -1,23 +1,25 @@
 from lexer import Lexer
 from parser import Parser
+import copy
 
 text_input = """
-print(4 * 2 + 4 * 2);
+print(4 ^ 2);
 """
 
 lexer = Lexer().get_lexer()
 tokens = lexer.lex(text_input)
+tokens_list = copy.copy(tokens)
 
-print("INPUT:", text_input)
-print("OUTPUT:")
-
-"""
-for token in tokens:
+for token in tokens_list:
 	print(token)
-"""
+
+print("\nINPUT:", text_input)
+print("OUTPUT:")
 
 pg = Parser()
 pg.parse()
 parser = pg.get_parser()
 parser.parse(tokens).eval()
+
+
 

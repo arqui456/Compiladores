@@ -31,9 +31,17 @@ class Mult(BinaryOp):
 class Div(BinaryOp):
 	"""docstring for Div"""
 	def eval(self):
-		if self.right.eval() == 0:
-			raise ZeroDivisionError
 		return self.left.eval() // self.right.eval()
+
+class Exp(BinaryOp):
+	"""docstring for Exp"""
+	def eval(self):
+		return self.left.eval() ** self.right.eval()
+
+class Mod(BinaryOp):
+	"""docstring for Mod"""
+	def eval(self):
+		return self.left.eval() % self.right.eval()
 
 class Print():
 	"""docstring for Print"""

@@ -7,12 +7,13 @@ class Parser():
 		self.pg = ParserGenerator(
 			# A list of all token names, accepted by the parser.
 			['NUMBER', 'PRINT', 'OPEN_PAREN', 'CLOSE_PAREN',
-			 'SEMI_COLON', 'SUM', 'SUB', 'MULT', 'DIV'],
+			 'SEMI_COLON', 'SUM', 'SUB', 'MULT', 'DIV', 'EXP', 'MOD'],
 			 # A list of precedence rules with ascending precedence, to
 			 # disambiguate ambiguous production rules.
 			 precedence=[
 			 	('left', ['SUM', 'SUB']),
-			 	('left', ['MULT', 'DIV'])
+			 	('left', ['MULT', 'DIV', 'MOD']),
+			 	('left', ['EXP'])
 			 ],
 			 cache_id='myparser'
 		)
@@ -26,6 +27,8 @@ class Parser():
 		@self.pg.production('expression : expression SUB expression')
 		@self.pg.production('expression : expression MULT expression')
 		@self.pg.production('expression : expression DIV expression')
+		@self.pg.production('expression : expression EXP expression')
+		@self.pg.production('expression : expression MOD expression')
 		def expression(p):
 			left = p[0]
 			right = p[2]
@@ -38,11 +41,13 @@ class Parser():
 				return Sum(left, right)
 			elif operator.gettokentype() == 'SUB':
 				return Sub(left, right)
+			elif operator.gettokentype() == 'EXP':
+				return Exp(left, right)
+			elif operator.gettokentype() == 'MOD':
+				return Mod(left, right)
 			else:
 				raise AssertionError('Oops, this should not be possible!')
 			
-			
-
 		@self.pg.production('expression : NUMBER')
 		def number(p):
 			return Number(p[0].value)
