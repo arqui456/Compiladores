@@ -18,6 +18,11 @@ class Sum(BinaryOp):
 	def eval(self):
 		return self.left.eval() + self.right.eval()
 
+class Sub(BinaryOp):
+	"""docstring for Sum"""
+	def eval(self):
+		return self.left.eval() - self.right.eval()
+
 class Mult(BinaryOp):
 	"""docstring for Mult"""
 	def eval(self):

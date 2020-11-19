@@ -7,11 +7,11 @@ class Parser():
 		self.pg = ParserGenerator(
 			# A lsit of all token names accepted by the parser.
 			['NUMBER', 'PRINT', 'OPEN_PAREN', 'CLOSE_PAREN',
-			 'SEMI_COLON', 'SUM', 'SUB']
+			 'SEMI_COLON', 'SUM', 'SUB', 'MULT', 'DIV']
 		)
 
 	def parse(self):
-		@self.pg.production('program: PRINT OPEN_PAREN expression CLOSE_PAREN SEMI_COLON')
+		@self.pg.production('program : PRINT OPEN_PAREN expression CLOSE_PAREN SEMI_COLON')
 		def program(p):
 			return Print(p[2])
 
