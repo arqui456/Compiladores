@@ -25,7 +25,7 @@ class Lexer():
 		self.lexer.add('SEMI_COLON', r'\;')
 
 		# Math Operators
-		###
+		######################################
 
 		# Sum
 		self.lexer.add('SUM', r'\+')
@@ -40,16 +40,16 @@ class Lexer():
 		self.lexer.add('DIV', r'\/')
 		
 		# Data Types
-		###
+		######################################
 
 		# Number
-		self.lexer.add('NUMBER', r'\d+')
+		self.lexer.add("NUMBER", r"\d+")
 
 		# Other Stuff
-		###
+		######################################
 
 		# Ignore spaces
-		self.lexer.ignore('\s+')
+		self.lexer.ignore(r"\s+")
 
 	def get_lexer(self):
 		self._add_tokens()
