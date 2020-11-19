@@ -1,5 +1,5 @@
-from generator import LexerGenerator
-# from rply import LexerGenerator
+#from generator import LexerGenerator
+from rply import LexerGenerator
 
 class Lexer():
 	def __init__(self):
@@ -33,6 +33,11 @@ class Lexer():
 		# Subtration
 		self.lexer.add('SUB', r'\-')
 
+		# Multiplication
+		self.lexer.add('MULT', r'\*')
+
+		# Division
+		self.lexer.add('DIV', r'\/')
 		
 		# Data Types
 		###

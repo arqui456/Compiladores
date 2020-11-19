@@ -1,5 +1,5 @@
-from generator import ParserGenerator
-# from rply import ParserGenerator
+#from generator import ParserGenerator
+from rply import ParserGenerator
 from ast import *
 
 class Parser():
@@ -17,6 +17,8 @@ class Parser():
 
 		@self.pg.production('expression : expression SUM expression')
 		@self.pg.production('expression : expression SUB expression')
+		@self.pg.production('expression : expression MULT expression')
+		@self.pg.production('expression : expression DIV expression')
 		def expression(p):
 			left = p[0]
 			right = p[2]
@@ -25,6 +27,10 @@ class Parser():
 				return Sum(left, right)
 			elif operator.gettokentype() == 'SUB':
 				return Sub(left, right)
+			elif operator.gettokentype() == 'MULT':
+				return Mult(left, right)
+			elif operator.gettokentype() == 'DIV':
+				return Div(left, right)
 
 		@self.pg.production('expression : NUMBER')
 		def number(p):

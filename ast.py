@@ -1,5 +1,3 @@
-### Abstract Syntax Tree
-
 
 class Number():
 	"""docstring for Number"""
@@ -19,6 +17,18 @@ class Sum(BinaryOp):
 	"""docstring for Sum"""
 	def eval(self):
 		return self.left.eval() + self.right.eval()
+
+class Mult(BinaryOp):
+	"""docstring for Mult"""
+	def eval(self):
+		return self.left.eval() * self.right.eval()
+
+class Div(BinaryOp):
+	"""docstring for Div"""
+	def eval(self):
+		if self.right.eval() == 0:
+			raise ZeroDivisionError
+		return self.left.eval() // self.right.eval()
 
 class Print():
 	"""docstring for Print"""
