@@ -13,7 +13,8 @@ class Parser():
 			 precedence=[
 			 	('left', ['SUM', 'SUB']),
 			 	('left', ['MULT', 'DIV'])
-			 ]
+			 ],
+			 cache_id='myparser'
 		)
 
 	def parse(self):
