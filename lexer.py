@@ -1,111 +1,110 @@
-#from generator import LexerGenerator
+# from generator import LexerGenerator
 from rply import LexerGenerator
 
+
 class Lexer():
-	def __init__(self):
-		self.lexer = LexerGenerator()
+    def __init__(self):
+        self.lexer = LexerGenerator()
 
-	def _add_tokens(self):
+    def _add_tokens(self):
+        # Core language functions
+        ######################################
 
-		# Core language functions
-		######################################
+        # Print
+        self.lexer.add('PRINT', r'print')
 
-		# Print
-		self.lexer.add('PRINT', r'print')
+        # main and end main
+        self.lexer.add('START_MAIN', r'(main)')
+        self.lexer.add('END_MAIN', r'(end main)')
+        self.lexer.add('END', r'end')
 
-		# main and end main
-		self.lexer.add('START_MAIN', r'(main)')
-		self.lexer.add('END_MAIN', r'(end main)')
-		self.lexer.add('END', r'end')
+        # Prompt
+        self.lexer.add('PROMPT', r'(prompt)')
 
-		# Prompt
-		self.lexer.add('PROMPT', r'(prompt)')
+        # For and End for
+        self.lexer.add('FOR', r'(for)')
+        self.lexer.add('END_FOR', r'(end for)')
 
-		# For and End for
-		self.lexer.add('FOR', r'(for)')
-		self.lexer.add('END_FOR', r'(end for)')
+        # While and End While
+        self.lexer.add('WHILE', r'(while)')
+        self.lexer.add('END_WHILE', r'(end while)')
 
-		# While and End While
-		self.lexer.add('WHILE', r'(while)')
-		self.lexer.add('END_WHILE', r'(end while)')
+        # If and End If
+        self.lexer.add('IF', r'(if)')
+        self.lexer.add('THEN', r'(then)')
+        self.lexer.add('END_IF', r'(end if)')
 
-		# If and End If
-		self.lexer.add('IF', r'(if)')
-		self.lexer.add('THEN', r'(then)')
-		self.lexer.add('END_IF', r'(end if)')
+        # Else
+        self.lexer.add('ELSE', r'(else)')
 
-		# Else
-		self.lexer.add('ELSE', r'(else)')
+        # Let
+        self.lexer.add('LET', r'(let)')
 
-		# Let
-		self.lexer.add('LET', r'(let)')
+        # Call
+        self.lexer.add('call', r'(call)')
 
-		#Call
-		self.lexer.add('call', r'(call)')
+        # Var Type
+        self.lexer.add('VAR_TYPE', r'integer')
 
-		# Var Type
-		self.lexer.add('VAR_TYPE', r'integer')
+        # Code Struture Operators
+        ######################################
 
-		# Code Struture Operators
-		######################################
+        # Parenthesis
+        self.lexer.add('OPEN_PAREN', r'\(')
+        self.lexer.add('CLOSE_PAREN', r'\)')
 
-		# Parenthesis
-		self.lexer.add('OPEN_PAREN', r'\(')
-		self.lexer.add('CLOSE_PAREN', r'\)')
+        # Semi Colon
+        self.lexer.add('SEMI_COLON', r'\;')
 
-		# Semi Colon
-		self.lexer.add('SEMI_COLON', r'\;')
+        # Comma
+        self.lexer.add('COMMA', r'\,')
 
-		# Comma
-		self.lexer.add('COMMA', r'\,')
+        # Math Operators
+        ######################################
 
-		# Math Operators
-		######################################
+        # Sum
+        self.lexer.add('SUM', r'\+')
 
-		# Sum
-		self.lexer.add('SUM', r'\+')
+        # Subtration
+        self.lexer.add('SUB', r'\-')
 
-		# Subtration
-		self.lexer.add('SUB', r'\-')
+        # Multiplication
+        self.lexer.add('MULT', r'\*')
 
-		# Multiplication
-		self.lexer.add('MULT', r'\*')
+        # Exponential
+        self.lexer.add('EXP', r'\^')
 
-		# Exponential
-		self.lexer.add('EXP', r'\^')
+        # Division
+        self.lexer.add('DIV', r'\/')
 
-		# Division
-		self.lexer.add('DIV', r'\/')
+        # Modulus
+        self.lexer.add('MOD', r'\%')
 
-		# Modulus
-		self.lexer.add('MOD', r'\%')
+        # Relation Operators
+        ######################################
 
-		# Relation Operators
-		######################################
+        self.lexer.add('EQUAL', r'(=)')
+        self.lexer.add('DIFF', r'(<>)')
+        self.lexer.add('GTE', r'(>=)')
+        self.lexer.add('LTE', r'(<=)')
+        self.lexer.add('GREATER', r'(>)')
+        self.lexer.add('LESS', r'(<)')
 
-		self.lexer.add('EQUAL', r'()=)')
-		self.lexer.add('DIFF', r'(<>)')
-		self.lexer.add('GTE', r'()>=)')
-		self.lexer.add('LTE', r'(<=)')
-		self.lexer.add('GREATER', r'(>)')
-		self.lexer.add('LESS', r'(<)')
-		
-		# Data Types
-		######################################
+        # Data Types
+        ######################################
 
-		# Number
-		self.lexer.add("NUMBER", r"\d+")
+        # Number
+        self.lexer.add("NUMBER", r"\d+")
 
-		# Letters
-		self.lexer.add("LETTERS", r"[a-z]+")
+        # Letters
+        self.lexer.add("LETTERS", r"[a-z]+")
 
-		# Other Stuff
-		######################################
+        # Other Stuff
+        ######################################
 
-		# Ignore spaces
-		self.lexer.ignore(r"\s+")
+        # Ignore spaces
+        self.lexer.ignore(r"\s+")
 
-	def get_lexer(self):
-		self._add_tokens()
-		return self.lexer.build()
-
+    def get_lexer(self):
+        self._add_tokens()
+        return self.lexer.build()
