@@ -41,10 +41,7 @@ class Lexer():
 		self.lexer.add('LET', r'(let)')
 
 		#Call
-		self.lexer.add('call', r'(call)')
-
-		# Var Type
-		self.lexer.add('VAR_TYPE', r'integer')
+		self.lexer.add('CALL', r'(call)')
 
 		# Code Struture Operators
 		######################################
@@ -52,9 +49,6 @@ class Lexer():
 		# Parenthesis
 		self.lexer.add('OPEN_PAREN', r'\(')
 		self.lexer.add('CLOSE_PAREN', r'\)')
-
-		# Semi Colon
-		self.lexer.add('SEMI_COLON', r'\;')
 
 		# Comma
 		self.lexer.add('COMMA', r'\,')
@@ -82,13 +76,16 @@ class Lexer():
 
 		# Relation Operators
 		######################################
-
-		self.lexer.add('EQUAL', r'()=)')
+	
+		self.lexer.add('EQUAL', r'(=)')
 		self.lexer.add('DIFF', r'(<>)')
-		self.lexer.add('GTE', r'()>=)')
+		self.lexer.add('GTE', r'(>=)')
 		self.lexer.add('LTE', r'(<=)')
 		self.lexer.add('GREATER', r'(>)')
 		self.lexer.add('LESS', r'(<)')
+
+		# Assign
+		self.lexer.add('ASSIGN', r'(::=)')
 		
 		# Data Types
 		######################################
@@ -96,11 +93,24 @@ class Lexer():
 		# Number
 		self.lexer.add("NUMBER", r"\d+")
 
-		# Letters
-		self.lexer.add("LETTERS", r"[a-z]+")
+		# Variables
+		######################################
+
+		# Var Declaration
+		self.lexer.add('VAR_DECL', r'define')
+
+		# Var Type
+		self.lexer.add('VAR_TYPE', r'integer')
+
+		# Var ID
+		self.lexer.add("VAR_ID", r"[a-zA-Z0-9]+")
+
 
 		# Other Stuff
 		######################################
+
+		# Function Declaration
+		self.lexer.add('FUNC_DECL', r'(function)')
 
 		# Ignore spaces
 		self.lexer.ignore(r"\s+")
