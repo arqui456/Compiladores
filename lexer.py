@@ -13,6 +13,39 @@ class Lexer():
 		# Print
 		self.lexer.add('PRINT', r'print')
 
+		# main and end main
+		self.lexer.add('START_MAIN', r'(main)')
+		self.lexer.add('END_MAIN', r'(end main)')
+		self.lexer.add('END', r'end')
+
+		# Prompt
+		self.lexer.add('PROMPT', r'(prompt)')
+
+		# For and End for
+		self.lexer.add('FOR', r'(for)')
+		self.lexer.add('END_FOR', r'(end for)')
+
+		# While and End While
+		self.lexer.add('WHILE', r'(while)')
+		self.lexer.add('END_WHILE', r'(end while)')
+
+		# If and End If
+		self.lexer.add('IF', r'(if)')
+		self.lexer.add('THEN', r'(then)')
+		self.lexer.add('END_IF', r'(end if)')
+
+		# Else
+		self.lexer.add('ELSE', r'(else)')
+
+		# Let
+		self.lexer.add('LET', r'(let)')
+
+		#Call
+		self.lexer.add('call', r'(call)')
+
+		# Var Type
+		self.lexer.add('VAR_TYPE', r'integer')
+
 		# Code Struture Operators
 		######################################
 
@@ -22,6 +55,9 @@ class Lexer():
 
 		# Semi Colon
 		self.lexer.add('SEMI_COLON', r'\;')
+
+		# Comma
+		self.lexer.add('COMMA', r'\,')
 
 		# Math Operators
 		######################################
@@ -43,12 +79,25 @@ class Lexer():
 
 		# Modulus
 		self.lexer.add('MOD', r'\%')
+
+		# Relation Operators
+		######################################
+
+		self.lexer.add('EQUAL', r'()=)')
+		self.lexer.add('DIFF', r'(<>)')
+		self.lexer.add('GTE', r'()>=)')
+		self.lexer.add('LTE', r'(<=)')
+		self.lexer.add('GREATER', r'(>)')
+		self.lexer.add('LESS', r'(<)')
 		
 		# Data Types
 		######################################
 
 		# Number
 		self.lexer.add("NUMBER", r"\d+")
+
+		# Letters
+		self.lexer.add("LETTERS", r"[a-z]+")
 
 		# Other Stuff
 		######################################
