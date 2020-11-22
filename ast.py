@@ -43,6 +43,38 @@ class Mod(BinaryOp):
 	def eval(self):
 		return self.left.eval() % self.right.eval()
 
+
+### Logic ###
+class Equal(BinaryOp):
+	"""docstring for Equal"""
+	def eval(self):
+		return self.left.eval() == self.right.eval()
+
+class NotEqual(BinaryOp):
+	"""docstring for NotEqual"""
+	def eval(self):
+		return self.left.eval() != self.right.eval()
+
+class GreaterThan(BinaryOp):
+	"""docstring for GreaterThan"""
+	def eval(self):
+		return self.left.eval() > self.right.eval()
+
+class LessThan(BinaryOp):
+	"""docstring for LessThat"""
+	def eval(self):
+		return self.left.eval() < self.right.eval()
+
+class GreaterThanEqual(BinaryOp):
+	"""docstring for GreaterThanEqual"""
+	def eval(self):
+		return self.left.eval() >= self.right.eval()
+		
+class LessThanEqual(BinaryOp):
+	"""docstring for LessThatEqual"""
+	def eval(self):
+		return self.left.eval() <= self.right.eval()
+
 class Print():
 	"""docstring for Print"""
 	def __init__(self, value):
