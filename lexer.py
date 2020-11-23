@@ -15,8 +15,8 @@ class Lexer():
 
 		# main and end main
 		self.lexer.add('START_MAIN', r'(main)')
-		self.lexer.add('END_MAIN', r'(end main)')
-		self.lexer.add('END', r'end')
+		self.lexer.add('END_MAIN', r'(end_main)')
+		self.lexer.add('END', r'(end)')
 
 		# Prompt
 		self.lexer.add('PROMPT', r'(prompt)')
@@ -49,6 +49,10 @@ class Lexer():
 		# Parenthesis
 		self.lexer.add('OPEN_PAREN', r'\(')
 		self.lexer.add('CLOSE_PAREN', r'\)')
+
+		# Square Bracket
+		self.lexer.add('OPEN_BRACKET', r'\[')
+		self.lexer.add('CLOSE_BRACKET', r'\]')
 
 		# Comma
 		self.lexer.add('COMMA', r'\,')
@@ -91,7 +95,10 @@ class Lexer():
 		######################################
 
 		# Number
-		self.lexer.add("NUMBER", r"\d+")
+		self.lexer.add("NUMBER", r'\d+')
+
+		# String
+		self.lexer.add("STRING", '(""".*/?""")|(".*/?")|(\'.*?\')')
 
 		# Variables
 		######################################
@@ -105,12 +112,15 @@ class Lexer():
 		# Var ID
 		self.lexer.add("VAR_ID", r"[a-zA-Z0-9]+")
 
-
 		# Other Stuff
 		######################################
 
 		# Function Declaration
 		self.lexer.add('FUNC_DECL', r'(function)')
+
+		self.lexer.add('NEWLINE', r'\n')
+
+		self.lexer.add('NOT', 'not(?!\w)')
 
 		# Ignore spaces
 		self.lexer.ignore(r"\s+")

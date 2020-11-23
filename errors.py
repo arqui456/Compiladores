@@ -1,6 +1,7 @@
 class LogicError(Exception):
 
-	message = 'Shouldn''t be possible'
+	def __init__(self, message="Shoudn't be possible"):
+		self.message = message
 
 	def __str__(self):
 		return self.message

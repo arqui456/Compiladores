@@ -3,7 +3,16 @@ from parser import Parser
 import copy
 
 text_input = """
-print(2 <= 3) end
+print(3 + 2)
+end_main
+print(3 * 2)
+end_main
+print(5 = 5)
+end_main
+print(3 > 6)
+end_main
+define x ::= 20
+end_main
 """
 
 lexer = Lexer().get_lexer()
@@ -20,7 +29,6 @@ pg = Parser()
 pg.parse()
 parser = pg.get_parser(tokens)
 parser.parse(tokens).eval()
-
 
 
 
