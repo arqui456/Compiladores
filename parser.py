@@ -16,14 +16,14 @@ class Parser():
 			 'GREATER', 'LESS','LTE', 'NEWLINE', 'VAR_DECL',
 			 'VAR_TYPE', 'VAR_ID', 'ASSIGN', 'FUNC_DECL',
 			 'STRING', 'COMMA', 'NOT', 'OPEN_BRACKET',
-			 'CLOSE_BRACKET', 'IF', 'ELSE', 'WHILE', 'THEN'],
+			 'CLOSE_BRACKET', 'IF', 'ELSE', 'WHILE', 'THEN', 'END_WHILE'],
 			 # A list of precedence rules with ascending precedence, to
 			 # disambiguate ambiguous production rules.
 			 precedence=[
 			 	('left', ['VAR_DECL','PRINT']),
 			 	('left', ['ASSIGN']),
 			 	('left', ['OPEN_BRACKET', 'CLOSE_BRACKET', 'COMMA']),
-			 	('left', ['IF', 'THEN', 'ELSE', 'END', 'NEWLINE', 'WHILE']),
+			 	('left', ['IF', 'THEN', 'ELSE', 'END', 'NEWLINE', 'WHILE', 'END_WHILE']),
 			 	('left', ['NOT']),
 			 	('left', ['EQUAL', 'DIFF', 'GTE', 'GREATER', 'LESS', 'LTE']),
 			 	('left', ['SUM', 'SUB']),
@@ -41,7 +41,7 @@ class Parser():
 		@self.pg.production('main : START_MAIN program')
 		@self.pg.production('main : program')
 		def main_program(p):
-			return p[0]
+			return p[1]
 
 		@self.pg.production('program : statement_full')
 		def program_statement(p):
@@ -70,9 +70,13 @@ class Parser():
 			return b
 
 		@self.pg.production('statement_full : statement NEWLINE')
-		@self.pg.production('statement_full : statement END_MAIN')
+		@self.pg.production('statement_full : statement END')
 		def statement_full(p):
 			return p[0]
+
+		@self.pg.production('statement_full : END_MAIN')
+		def end_main(p):
+			return String("END OF PROGRAM")
 
 		@self.pg.production('statement : expression')
 		def statement_expr(p):
@@ -142,7 +146,7 @@ class Parser():
 		def expression_if_else(p):
 			return If(condition=p[1], body=p[4], else_body=p[8])
 
-		@self.pg.production('expression : WHILE expression THEN NEWLINE block END')
+		@self.pg.production('expression : WHILE expression THEN NEWLINE block END_WHILE')
 		def expression_while(p):
 			return While(condition=p[1], body=p[4])
 
@@ -236,7 +240,7 @@ class Parser():
 		@self.pg.error
 		def error_handle(token):
 			# We print our state for debugging purporses
-			print(token)
+			#print(token)
 			pos = token.getsourcepos()
 			if pos:
 				raise UnexpectedTokenError(token.gettokentype())

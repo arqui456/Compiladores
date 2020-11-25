@@ -27,7 +27,7 @@ class Lexer():
 
 		# While and End While
 		self.lexer.add('WHILE', r'(while)')
-		self.lexer.add('END_WHILE', r'(end while)')
+		self.lexer.add('END_WHILE', r'(end_while)')
 
 		# If and End If
 		self.lexer.add('IF', r'(if)')
