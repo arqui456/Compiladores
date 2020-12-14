@@ -188,7 +188,7 @@ class String():
 		self.value = value
 
 	def eval(self):
-		return self
+		return self.value
 
 	def to_string(self):
 		return '"%s"' % str(self.value)
@@ -268,7 +268,7 @@ class If():
 
 	def eval(self):
 		condition = self.condition.eval()
-		if Boolean(True).equals(condition).value:
+		if Boolean(True).value == condition:
 			return self.body.eval()
 		elif type(self.else_body) is not Null:
 			return self.else_body.eval()
@@ -281,6 +281,8 @@ class While():
 		self.body = body
 
 	def eval(self):
+		while Boolean(True).value == self.condition.eval():
+			return self.body.eval()
 		return Null()
 
 ### Logic ###

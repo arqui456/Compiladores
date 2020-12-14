@@ -1,5 +1,6 @@
 #from generator import LexerGenerator
 from rply import LexerGenerator
+import re
 
 class Lexer():
 	def __init__(self):
@@ -23,16 +24,16 @@ class Lexer():
 
 		# For and End for
 		self.lexer.add('FOR', r'(for)')
-		self.lexer.add('END_FOR', r'(end for)')
+		self.lexer.add('END_FOR', r'(end_for)')
 
 		# While and End While
 		self.lexer.add('WHILE', r'(while)')
-		self.lexer.add('END_WHILE', r'(end_while)')
+		self.lexer.add('END_WHILE', r'(enile)')
 
 		# If and End If
 		self.lexer.add('IF', r'(if)')
 		self.lexer.add('THEN', r'(then)')
-		self.lexer.add('END_IF', r'(end if)')
+		self.lexer.add('END_IF', r'(enif)')
 
 		# Else
 		self.lexer.add('ELSE', r'(else)')
@@ -53,6 +54,10 @@ class Lexer():
 		# Square Bracket
 		self.lexer.add('OPEN_BRACKET', r'\[')
 		self.lexer.add('CLOSE_BRACKET', r'\]')
+
+		# curly brabes
+		self.lexer.add('OPEN_CURLY_BRACES', r'\{')
+		self.lexer.add('CLOSE_CURLY_BRACES', r'\}')
 
 		# Comma
 		self.lexer.add('COMMA', r'\,')
@@ -118,12 +123,36 @@ class Lexer():
 		# Function Declaration
 		self.lexer.add('FUNC_DECL', r'(function)')
 
-		self.lexer.add('NEWLINE', r'\n')
+		self.lexer.add('NEWLINE', '\n')
 
 		self.lexer.add('NOT', 'not(?!\w)')
 
 		# Ignore spaces
 		self.lexer.ignore(r"\s+")
+		#self.lexer.ignore('[ \t\r\f\v]+')
+
+	"""
+	def lex(self, source):
+
+		comments = r'(#.*)(?:\n|\Z)'
+		multiline = r'([\s]+)(?:\n)'
+
+		comment = re.search(comments, source)
+		while comment is not None:
+			start, end = comment.span(1)
+			assert start >= 0 and end >= 0
+			source = source[0:start] + source[end:] #remove string part that was a comment
+			comment = re.search(comments, source)
+
+		line = re.search(multiline, source)
+		while line is not None:
+			start, end = line.span(1)
+			assert start >= 0 and end >= 0
+			source = source[0:start] + source[end:] #remove string part that was an empty line
+			line = re.search(multiline, source)
+
+		return self.lexer.lex(source)
+	"""
 
 	def get_lexer(self):
 		self._add_tokens()

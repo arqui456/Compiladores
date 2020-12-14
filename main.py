@@ -4,9 +4,10 @@ import copy
 
 text_input = """
 main
-while True then
-print(2+2)
-end_while
+print(2 + 3) end
+if (5 > 3) then print("testando") enif end
+if (6 > 3) then print("teste 2") enif end
+while (3 > 2) then print(1+1) enile end
 end_main
 """
 
@@ -21,7 +22,6 @@ for token in token_list:
 print("\nINPUT:", text_input)
 print("OUTPUT:")
 """
-
 
 pg = Parser()
 pg.parse()

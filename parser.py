@@ -16,14 +16,15 @@ class Parser():
 			 'GREATER', 'LESS','LTE', 'NEWLINE', 'VAR_DECL',
 			 'VAR_TYPE', 'VAR_ID', 'ASSIGN', 'FUNC_DECL',
 			 'STRING', 'COMMA', 'NOT', 'OPEN_BRACKET',
-			 'CLOSE_BRACKET', 'IF', 'ELSE', 'WHILE', 'THEN', 'END_WHILE'],
+			 'CLOSE_BRACKET', 'IF', 'ELSE', 'WHILE', 'THEN', 'END_WHILE', 'END_IF',
+			 'OPEN_CURLY_BRACES', 'CLOSE_CURLY_BRACES'],
 			 # A list of precedence rules with ascending precedence, to
 			 # disambiguate ambiguous production rules.
 			 precedence=[
 			 	('left', ['VAR_DECL','PRINT']),
 			 	('left', ['ASSIGN']),
 			 	('left', ['OPEN_BRACKET', 'CLOSE_BRACKET', 'COMMA']),
-			 	('left', ['IF', 'THEN', 'ELSE', 'END', 'NEWLINE', 'WHILE', 'END_WHILE']),
+			 	('left', ['IF', 'THEN', 'ELSE', 'END_IF', 'NEWLINE', 'WHILE', 'END_WHILE', 'END']),
 			 	('left', ['NOT']),
 			 	('left', ['EQUAL', 'DIFF', 'GTE', 'GREATER', 'LESS', 'LTE']),
 			 	('left', ['SUM', 'SUB']),
@@ -58,10 +59,12 @@ class Parser():
 
 		@self.pg.production('block : statement_full')
 		def block_expr(p):
+			print("ESTOU NO BLOCK 1")
 			return Block(p[0])
 
 		@self.pg.production('block : statement_full block')
 		def block_expr_block(p):
+			print("ESTOU NO BLOCK 2")
 			if type(p[1]) is Block:
 				block = p[1]
 			else:
@@ -126,29 +129,50 @@ class Parser():
 		def arglist_single(p):
 			return InnerArray([Variable(p[0].getstr())])
 
+		@self.pg.production('arglist : VAR_ID COMMA arglist')
+		def arglist(p):
+			p[2].push(Variable(p[0].getstr()))
+			return p[2]
+
+		@self.pg.production('maplist : expression THEN expression')
+		@self.pg.production('maplist : expression THEN expression COMMA')
+		def maplist_single(p):
+			return InnerDict({ p[0]: p[2] })
+
+		@self.pg.production('maplist : expression THEN expression COMMA maplist')
+		def arglist(p):
+			# expressionlist should already be an InnerArray
+			p[4].update(p[0],p[2])
+			return p[4]
+
+		@self.pg.production('expression : OPEN_CURLY_BRACES maplist CLOSE_CURLY_BRACES')
+		def expression_dict(p):
+			return Dict(p[1])
+
 		@self.pg.production('expression : expression OPEN_BRACKET expression CLOSE_BRACKET')
 		def expression_array_index(p):
 			return Index(p[0], p[2])
 
-		@self.pg.production('expression : IF expression THEN statement END')
+		@self.pg.production('expression : IF expression THEN statement END_IF')
 		def expression_if_single_line(p):
 			return If(condition=p[1], body=p[3])
 
-		@self.pg.production('expression : IF expression THEN statement ELSE THEN statement END')
+		@self.pg.production('expression : IF expression THEN statement ELSE THEN statement END_IF')
 		def expression_if_else_single_line(p):
 			return If(condition=p[1], body=p[3], else_body=p[6])
 
-		@self.pg.production('expression : IF expression THEN NEWLINE block END')
+		@self.pg.production('expression : IF expression THEN NEWLINE block END_IF')
 		def expression_if(p):
 			return If(condition=p[1], body=p[4])
 
-		@self.pg.production('expression : IF expression THEN NEWLINE block ELSE THEN NEWLINE block END')
+		@self.pg.production('expression : IF expression THEN NEWLINE block ELSE THEN NEWLINE block END_IF')
 		def expression_if_else(p):
 			return If(condition=p[1], body=p[4], else_body=p[8])
 
-		@self.pg.production('expression : WHILE expression THEN NEWLINE block END_WHILE')
+		#@self.pg.production('expression : WHILE expression THEN NEWLINE block END_WHILE')
+		@self.pg.production('expression : WHILE expression THEN statement END_WHILE')
 		def expression_while(p):
-			return While(condition=p[1], body=p[4])
+			return While(condition=p[1], body=p[3])
 
 		@self.pg.production('expression : VAR_ID')
 		def expression_variable(p):
@@ -214,7 +238,7 @@ class Parser():
 		@self.pg.production('expression : expression DIV expression')
 		@self.pg.production('expression : expression EXP expression')
 		@self.pg.production('expression : expression MOD expression')
-		def expression(p):
+		def expression_binop(p):
 			left = p[0]
 			right = p[2]
 			operator = p[1]
@@ -246,7 +270,7 @@ class Parser():
 				raise UnexpectedTokenError(token.gettokentype())
 			elif token.gettokentype() == 'END_MAIN':
 				raise UnexpectedEndError()
-			raise ValueError(token)		
+			raise ValueError(token)
 
 	def get_parser(self, tokens):
 		return self.pg.build()
