@@ -80,7 +80,7 @@
 
 <intnum> ::= <digito>+
 
-<letra> ::= a| b| d| e| ... |w
+<letra> ::= a| b| c| d| ... |w
 
 <digito> ::= 0| 1| 2| 3| ... |9
 ```
@@ -96,8 +96,13 @@ sudo pacman -S python
 
 ## :computer: Execution
 
-Just execute the main.py file with a input file in the same folder:
+Just execute the shell.py file with a input file in the same folder:
 ```bash
-python main.py
+python shell.py
 ```
+That will open a prompt that you can run any code accepted by our bnf, to run a example code simply run:
+```bash
+RUN("example.gl")
+```
+That will execute the code in the example.gl file
 
