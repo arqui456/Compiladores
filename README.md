@@ -1,6 +1,6 @@
 <div align="Center" class="tip" markdown="1" style>
 
-![screenshot](primeira_semana/screenshot.png)
+![screenshot](screenshot.png)
 ![python](https://img.shields.io/badge/python-%5E3.0-brightgreen)
 ![Tested on arch](https://img.shields.io/badge/Tested%20on-Archlinux-brightgreen)
 </div>
