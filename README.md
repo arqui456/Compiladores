@@ -7,44 +7,37 @@
 
 # BNF - GL
 ```
-<programa> ::= <rotina> main <corpo> end main
+<programa> ::= <rotina> <corpo>
 
 <corpo> ::= <declara> <sentencas>
 
 <declara> ::= <dvar> <declara> | λ
 
-<dvar> ::= define <variaveis> <tipo_var>
+<dvar> ::= LET <variaveis>
 
-<tipo_var> ::= integer
-
-<variaveis> ::= <id> <mais_var>
-
-<mais_var> ::= , <variaveis> | λ
+<variaveis> ::= <id> = <intnum> | <letra> | <string> | <dvar>
 
 <rotina> ::= <procedimento> | <funcao> | λ
 
-<procedimento> ::= <id> <parametros> <corpo> end <rotina>
+<procedimento> ::= <id> <parametros> <corpo> END <rotina>
 
-<funcao> ::= function <id> <parametros> <tipo_funcao> <corpo> 
-	end <rotina>
+<funcao> ::= FUNCTION <id> <parametros> <corpo> END <rotina>
 
 <parametros> ::= ( <lista_parametros> ) | λ
 
-<lista_parametros> ::= <id> <tipo_var> <cont_lista_par> | λ
+<lista_parametros> ::= <id> <cont_lista_par> | λ
 
-<cont_lista_par> ::= , <id> <tipo_var> <cont_lista_par> | λ
-
-<tipo_funcao> ::= integer
+<cont_lista_par> ::= , <id> <cont_lista_par> | λ
 
 <sentencas> ::= <comando> <mais_sentencas>
 
 <mais_sentencas> ::= <sentencas> | λ
 
-<comando> ::= prompt for <id> | display <id> | for <id> = 
-	<expressao> to <expressao> <sentencas> end for | while  
-	<condicao> <sentencas> end while | if <condicao> then 
-	<sentencas> <pfalsa> end if | let <idvar> = <expressao> |
-	call <chamada_procedimento>
+<comando> ::= PROMPT FOR <id> | PRINT <id> | FOR <id> = 
+	<expressao> TO <expressao> <sentencas> END | WHILE  
+	<condicao> <sentencas> END | IF <condicao> THEN 
+	<sentencas> <pfalsa> | LET <id> = <expressao> |
+	RUN <chamada_procedimento>
 
 <chamada_procedimento> ::= <id_proc> <argumentos>
 
@@ -54,16 +47,16 @@
 
 <cont_lista_arg> ::= , <lista_arg> | λ
 
-<pfalsa> ::= else <sentencas> | λ
+<pfalsa> ::= ELSE <sentencas> | λ
 
 <condicao> ::= <expressao> <relacao> <expressao> 
 
-<relacao> ::= = | <> | >= | <= | > | <
+<relacao> ::= == | <> | >= | <= | > | <
 
 <expressao> ::= <termo> <outros_termos>
 
 <outros_termos> ::= <op_ad> <termo> <outros_termos> |<op_ad> 
-	<intnum> <outros_termos> | <id> <outros_termos> | 
+	<intnum> <outros_termos> | <id> <outros_termos> | λ
 
 <op_ad> ::= + | -
 
@@ -79,6 +72,10 @@
 <id> ::= <letra> (<letra> | <digito>)* 
 
 <intnum> ::= <digito>+
+
+<string> ::= " <char> { <char> } "
+
+<char> ::= <letra> | <digito> | λ
 
 <letra> ::= a| b| c| d| ... |w
 
