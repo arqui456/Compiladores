@@ -1,0 +1,21 @@
+# Code example with functions, loops and conditions
+
+FUNCTION factorial(n)
+	LET result = 0
+	IF n <= 1 THEN RETURN 1
+	LET result = n * factorial(n-1)
+	RETURN result
+END
+
+PRINT("Hello World!")
+
+FOR i = 0 TO 5 THEN
+	LET result = 0
+	PRINT("Inside Loop")
+	IF i > 2 THEN 
+	LET result = factorial(i)
+	ELSE PRINT("False")
+	IF result != 0 THEN PRINT(result)
+END
+
+PRINT("End Loop")
