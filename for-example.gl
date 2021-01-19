@@ -1,0 +1,14 @@
+# Comment example
+
+PRINT("Hello World!")
+
+FOR i = 0 TO 5 THEN
+	LET result = 0
+	PRINT("Inside Loop")
+	IF i > 2 THEN
+	PRINT("Inside If")
+	ELSE PRINT("False")
+	IF result != 0 THEN PRINT(result)
+END
+
+PRINT("End Loop")

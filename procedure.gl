@@ -1,0 +1,22 @@
+PROCEDURE brinks(x,y)
+	POP(x,2)
+	APPEND(x, 2)
+	POP(y,0)
+	APPEND(y, 3)
+END
+
+LET h = [10, 11, 22, 23]
+
+LET w = [12]
+
+PRINT("Valor anterior: ")
+PRINT(h)
+PRINT("Valor anterior: ")
+PRINT(w)
+
+brinks(h, w)
+
+PRINT("Valor posterior: ")
+PRINT(h)
+PRINT("Valor posterior: ")
+PRINT(w)
