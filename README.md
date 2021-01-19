@@ -77,7 +77,7 @@
 
 <char> ::= <letra> | <digito> | λ
 
-<letra> ::= a| b| c| d| ... |w
+<letra> ::= a| b| c| d| ... y| z| ... A| B| ... Y| Z|
 
 <digito> ::= 0| 1| 2| 3| ... |9
 ```
