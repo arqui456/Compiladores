@@ -33,13 +33,13 @@
 
 <mais_sentencas> ::= <sentencas> | λ
 
-<comando> ::= PROMPT FOR <id> | PRINT <id> | FOR <id> = 
+<comando> ::= PROMPT FOR <id> | PRINT (<id>) | FOR <id> = 
 	<expressao> TO <expressao> <sentencas> END | WHILE  
-	<condicao> <sentencas> END | IF <condicao> THEN 
+	<condicoes> <sentencas> END | IF <condicoes> THEN 
 	<sentencas> <pfalsa> | LET <id> = <expressao> |
-	RUN <chamada_procedimento>
+	RUN <chamada_programa>
 
-<chamada_procedimento> ::= <id_proc> <argumentos>
+<chamada_programa> ::= ( <letra> )
 
 <argumentos> ::= ( <lista_arg> ) | λ
 
@@ -49,7 +49,9 @@
 
 <pfalsa> ::= ELSE <sentencas> | λ
 
-<condicao> ::= <expressao> <relacao> <expressao> 
+<condicao> ::= <expressao> <relacao> <expressao> | ( <expressao> <relacao> <expressao> )
+
+<condicoes> ::= <condicao> | <condicao> AND <condicao> | <condicao> OR <condicao>
 
 <relacao> ::= == | <> | >= | <= | > | <
 
