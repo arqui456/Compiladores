@@ -136,6 +136,7 @@ KEYWORDS = [
   'STEP',
   'WHILE',
   'FUNCTION',
+  'PROCEDURE',
   'THEN',
   'END',
   'RETURN',
@@ -187,7 +188,7 @@ class Lexer:
         self.advance()
       elif self.current_char == '#':
         self.skip_comment()
-      elif self.current_char in ';\n':
+      elif self.current_char in '\n':
         tokens.append(Token(TT_NEWLINE, pos_start=self.pos))
         self.advance()
       elif self.current_char in DIGITS:
@@ -244,6 +245,7 @@ class Lexer:
     tokens.append(Token(TT_EOF, pos_start=self.pos))
     return tokens, None
 
+  # Recebe uma string e transforma em número (INT ou FLOAT)
   def make_number(self):
     num_str = ''
     dot_count = 0
@@ -261,6 +263,7 @@ class Lexer:
     else:
       return Token(TT_FLOAT, float(num_str), pos_start, self.pos)
 
+# gera uma string
   def make_string(self):
     string = ''
     pos_start = self.pos.copy()
@@ -286,6 +289,7 @@ class Lexer:
     self.advance()
     return Token(TT_STRING, string, pos_start, self.pos)
 
+# Cria um identificador e o classifica entre nome de variável ou palavra reservada
   def make_identifier(self):
     id_str = ''
     pos_start = self.pos.copy()
@@ -297,6 +301,7 @@ class Lexer:
     tok_type = TT_KEYWORD if id_str in KEYWORDS else TT_IDENTIFIER
     return Token(tok_type, id_str, pos_start, self.pos)
 
+  # menos
   def make_minus_or_arrow(self):
     tok_type = TT_MINUS
     pos_start = self.pos.copy()
@@ -308,6 +313,7 @@ class Lexer:
 
     return Token(tok_type, pos_start=pos_start, pos_end=self.pos)
 
+  #diferente !=
   def make_not_equals(self):
     pos_start = self.pos.copy()
     self.advance()
@@ -361,7 +367,7 @@ class Lexer:
     self.advance()
 
 #######################################
-# NODES
+# NODES (TIPOS DE DADOS)
 #######################################
 
 class NumberNode:
@@ -640,7 +646,7 @@ class Parser:
     if res.error:
       return res.failure(InvalidSyntaxError(
         self.current_tok.pos_start, self.current_tok.pos_end,
-        "Expected 'RETURN', 'CONTINUE', 'BREAK', 'LET', 'IF', 'FOR', 'WHILE', 'FUNCTION', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+        "Expected 'RETURN', 'CONTINUE', 'BREAK', 'LET', 'IF', 'FOR', 'WHILE', 'FUNCTION', 'PROCEDURE', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
       ))
     return res.success(expr)
 
@@ -678,7 +684,7 @@ class Parser:
     if res.error:
       return res.failure(InvalidSyntaxError(
         self.current_tok.pos_start, self.current_tok.pos_end,
-        "Expected 'LET', 'IF', 'FOR', 'WHILE', 'FUNCTION', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+        "Expected 'LET', 'IF', 'FOR', 'WHILE', 'FUNCTION', 'PROCEDURE', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
       ))
 
     return res.success(node)
@@ -700,7 +706,7 @@ class Parser:
     if res.error:
       return res.failure(InvalidSyntaxError(
         self.current_tok.pos_start, self.current_tok.pos_end,
-        "Expected int, float, identifier, '+', '-', '(', '[', 'IF', 'FOR', 'WHILE', 'FUNCTION' or 'NOT'"
+        "Expected int, float, identifier, '+', '-', '(', '[', 'IF', 'FOR', 'WHILE', 'FUNCTION', 'PROCEDURE' or 'NOT'"
       ))
 
     return res.success(node)
@@ -745,7 +751,7 @@ class Parser:
         if res.error:
           return res.failure(InvalidSyntaxError(
             self.current_tok.pos_start, self.current_tok.pos_end,
-            "Expected ')', 'LET', 'IF', 'FOR', 'WHILE', 'FUNCTION', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+            "Expected ')', 'LET', 'IF', 'FOR', 'WHILE', 'FUNCTION', 'PROCEDURE', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
           ))
 
         while self.current_tok.type == TT_COMMA:
@@ -825,9 +831,14 @@ class Parser:
       if res.error: return res
       return res.success(func_def)
 
+    elif tok.matches(TT_KEYWORD, 'PROCEDURE'):
+      proc_def = res.register(self.proc_def())
+      if res.error: return res
+      return res.success(proc_def)
+
     return res.failure(InvalidSyntaxError(
       tok.pos_start, tok.pos_end,
-      "Expected int, float, identifier, '+', '-', '(', '[', IF', 'FOR', 'WHILE', 'FUNCTION'"
+      "Expected int, float, identifier, '+', '-', '(', '[', IF', 'FOR', 'WHILE', 'FUNCTION', 'PROCEDURE'"
     ))
 
   def list_expr(self):
@@ -852,7 +863,7 @@ class Parser:
       if res.error:
         return res.failure(InvalidSyntaxError(
           self.current_tok.pos_start, self.current_tok.pos_end,
-          "Expected ']', 'LET', 'IF', 'FOR', 'WHILE', 'FUNCTION', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
+          "Expected ']', 'LET', 'IF', 'FOR', 'WHILE', 'FUNCTION', 'PROCEDURE', int, float, identifier, '+', '-', '(', '[' or 'NOT'"
         ))
 
       while self.current_tok.type == TT_COMMA:
@@ -1127,6 +1138,115 @@ class Parser:
       return res.failure(InvalidSyntaxError(
         self.current_tok.pos_start, self.current_tok.pos_end,
         f"Expected 'FUNCTION'"
+      ))
+
+    res.register_advancement()
+    self.advance()
+
+    if self.current_tok.type == TT_IDENTIFIER:
+      var_name_tok = self.current_tok
+      res.register_advancement()
+      self.advance()
+      if self.current_tok.type != TT_LPAREN:
+        return res.failure(InvalidSyntaxError(
+          self.current_tok.pos_start, self.current_tok.pos_end,
+          f"Expected '('"
+        ))
+    else:
+      var_name_tok = None
+      if self.current_tok.type != TT_LPAREN:
+        return res.failure(InvalidSyntaxError(
+          self.current_tok.pos_start, self.current_tok.pos_end,
+          f"Expected identifier or '('"
+        ))
+    
+    res.register_advancement()
+    self.advance()
+    arg_name_toks = []
+
+    if self.current_tok.type == TT_IDENTIFIER:
+      arg_name_toks.append(self.current_tok)
+      res.register_advancement()
+      self.advance()
+      
+      while self.current_tok.type == TT_COMMA:
+        res.register_advancement()
+        self.advance()
+
+        if self.current_tok.type != TT_IDENTIFIER:
+          return res.failure(InvalidSyntaxError(
+            self.current_tok.pos_start, self.current_tok.pos_end,
+            f"Expected identifier"
+          ))
+
+        arg_name_toks.append(self.current_tok)
+        res.register_advancement()
+        self.advance()
+      
+      if self.current_tok.type != TT_RPAREN:
+        return res.failure(InvalidSyntaxError(
+          self.current_tok.pos_start, self.current_tok.pos_end,
+          f"Expected ',' or ')'"
+        ))
+    else:
+      if self.current_tok.type != TT_RPAREN:
+        return res.failure(InvalidSyntaxError(
+          self.current_tok.pos_start, self.current_tok.pos_end,
+          f"Expected identifier or ')'"
+        ))
+
+    res.register_advancement()
+    self.advance()
+
+    if self.current_tok.type == TT_ARROW:
+      res.register_advancement()
+      self.advance()
+
+      body = res.register(self.expr())
+      if res.error: return res
+
+      return res.success(FuncDefNode(
+        var_name_tok,
+        arg_name_toks,
+        body,
+        True
+      ))
+    
+    if self.current_tok.type != TT_NEWLINE:
+      return res.failure(InvalidSyntaxError(
+        self.current_tok.pos_start, self.current_tok.pos_end,
+        f"Expected '->' or NEWLINE"
+      ))
+
+    res.register_advancement()
+    self.advance()
+
+    body = res.register(self.statements())
+    if res.error: return res
+
+    if not self.current_tok.matches(TT_KEYWORD, 'END'):
+      return res.failure(InvalidSyntaxError(
+        self.current_tok.pos_start, self.current_tok.pos_end,
+        f"Expected 'END'"
+      ))
+
+    res.register_advancement()
+    self.advance()
+    
+    return res.success(FuncDefNode(
+      var_name_tok,
+      arg_name_toks,
+      body,
+      False
+    ))
+
+  def proc_def(self):
+    res = ParseResult()
+
+    if not self.current_tok.matches(TT_KEYWORD, 'PROCEDURE'):
+      return res.failure(InvalidSyntaxError(
+        self.current_tok.pos_start, self.current_tok.pos_end,
+        f"Expected 'PROCEDURE'"
       ))
 
     res.register_advancement()
@@ -2184,6 +2304,7 @@ def run(fn, text):
   # Generate tokens
   lexer = Lexer(fn, text)
   tokens, error = lexer.make_tokens()
+  print(tokens)
   if error: return None, error
   
   # Generate AST
